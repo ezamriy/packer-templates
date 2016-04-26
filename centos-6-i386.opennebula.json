@@ -1,0 +1,61 @@
+{
+  "description": "CentOS 6.7 i386 image template for OpenNebula",
+  "variables": {
+    "iso_checksum_type": "sha1",
+    "ssh_username": "root",
+    "ssh_password": "vagrant"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/epel.sh",
+        "provisioners/opennebula.sh",
+        "provisioners/cleanup_vm.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "name": "centos-6-i386.opennebula",
+      "type": "qemu",
+      "iso_urls": [
+        "http://ftp.rrzn.uni-hannover.de/centos/6.7/isos/i386/CentOS-6.7-i386-netinstall.iso",
+        "http://ftp.agh.edu.pl/centos/6/isos/i386/CentOS-6.7-i386-netinstall.iso",
+        "http://repo.fedora.md/centos/6/isos/i386/CentOS-6.7-i386-netinstall.iso"
+      ],
+      "iso_checksum": "710c24a02b8ff8fd9783defbc13a43c6b6877027",
+      "iso_checksum_type": "sha1",
+      "output_directory": "builds/centos-6-i386.opennebula",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 1200,
+      "format": "qcow2",
+      "headless": false,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "3600s",
+      "vm_name": "centos-6-i386.opennebula.qcow2",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "5s",
+      "qemuargs": [
+        ["-m", "1024"]
+      ],
+      "boot_command": [
+        "<tab>",
+        " append edd=off ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6-i386.opennebula.ks.cfg<enter>",
+        "<enter>"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "compress",
+      "output": "builds/centos-6-i386.opennebula/centos-6-i386.opennebula.qcow2.gz",
+      "keep_input_artifact": true,
+      "compression_level": 9
+     }
+  ]
+}
