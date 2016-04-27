@@ -29,14 +29,14 @@
       "output_directory": "builds/centos-6-x86_64.opennebula",
       "shutdown_command": "shutdown -P now",
       "disk_size": 1200,
-      "format": "qcow2",
+      "format": "raw",
       "headless": false,
       "accelerator": "kvm",
       "http_directory": "http",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "3600s",
-      "vm_name": "centos-6-x86_64.opennebula.qcow2",
+      "vm_name": "centos-6-x86_64.opennebula.raw.{{isotime \"20060102\"}}",
       "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_wait": "5s",
@@ -53,7 +53,7 @@
   "post-processors": [
     {
       "type": "compress",
-      "output": "builds/centos-6-x86_64.opennebula/centos-6-x86_64.opennebula.qcow2.gz",
+      "output": "builds/centos-6-x86_64.opennebula/centos-6-x86_64.opennebula.raw.{{isotime \"20060102\"}}.gz",
       "keep_input_artifact": true,
       "compression_level": 9
      }
