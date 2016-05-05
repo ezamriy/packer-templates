@@ -25,7 +25,7 @@
       "shutdown_command": "shutdown -P now",
       "disk_size": 1200,
       "format": "raw",
-      "headless": false,
+      "headless": true,
       "accelerator": "kvm",
       "http_directory": "http",
       "ssh_username": "root",
