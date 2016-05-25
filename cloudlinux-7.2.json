@@ -51,15 +51,15 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "output_directory": "builds/cloudlinux-7.2-x86_64.opennebula",
       "shutdown_command": "{{user `shutdown_command`}}",
-      "disk_size": 4000,
-      "format": "raw",
+      "disk_size": 5000,
+      "format": "qcow2",
       "headless": "{{user `headless`}}",
       "accelerator": "kvm",
       "http_directory": "{{user `http_directory`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
-      "vm_name": "cloudlinux-7.2-x86_64.opennebula.{{isotime \"20060102\"}}.raw",
+      "vm_name": "cloudlinux-7.2-x86_64.opennebula.{{isotime \"20060102\"}}.qcow2",
       "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_wait": "10s",
@@ -110,7 +110,7 @@
     {
       "type": "compress",
       "compression_level": 9,
-      "output": "builds/cloudlinux-7.2-x86_64.opennebula/cloudlinux-7.2-x86_64.opennebula.{{isotime \"20060102\"}}.raw.gz",
+      "output": "builds/cloudlinux-7.2-x86_64.opennebula/cloudlinux-7.2-x86_64.opennebula.{{isotime \"20060102\"}}.qcow2.gz",
       "keep_input_artifact": true,
       "only": ["cloudlinux-7.2-x86_64.opennebula"]
     }
