@@ -5,7 +5,8 @@
 # description: Installs VirtualBox Guest Additions.
 
 
-mount -t iso9660 -o loop /home/vagrant/VBoxGuestAdditions.iso /mnt
+yum install -y bzip2 kernel-devel kernel-headers dkms gcc gcc-c++ perl make
+mount -t iso9660 -o loop /root/VBoxGuestAdditions.iso /mnt
 /mnt/VBoxLinuxAdditions.run
 umount /mnt
-rm -f /home/vagrant/VBoxGuestAdditions.iso
+rm -f /root/VBoxGuestAdditions.iso

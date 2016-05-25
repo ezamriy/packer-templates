@@ -2,7 +2,7 @@
 # -*- mode:sh; coding:utf-8; -*-
 # author: Eugene Zamriy <eugene@zamriy.info>
 # created: 2016-04-22
-# description: Adds EPEL repository and disables it by default.
+# description: adds EPEL repository and disables it by default.
 
 
 DISTR_VERSION=$(python -c 'import platform; print platform.dist()[1].split(".")[0]')

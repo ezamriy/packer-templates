@@ -1,0 +1,183 @@
+{
+  "variables": {
+    "headless": "true",
+    "x86_64_iso_url": "http://repo.cloudlinux.com/cloudlinux/6.8/iso/x86_64/CloudLinux-6.8-x86_64-netinstall.iso",
+    "x86_64_iso_checksum": "5f15bb14c7061367ad6825d0e554b544f4818187",
+    "i386_iso_url": "http://repo.cloudlinux.com/cloudlinux/6.8/iso/i386/CloudLinux-6.8-i386-netinstall.iso",
+    "i386_iso_checksum": "b01b0ae6451945fa2e5ad43c545e26dce1ff7596",
+    "iso_checksum_type": "sha1",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "3600s",
+    "http_directory": "http",
+    "shutdown_command": "shutdown -P now"
+  },
+  "builders": [
+    {
+      "name": "cloudlinux-6.8-x86_64.vagrant",
+      "type": "virtualbox-iso",
+      "guest_os_type": "RedHat_64",
+      "hard_drive_interface": "sata",
+      "disk_size": 40000,
+      "headless": "{{user `headless`}}",
+      "iso_url": "{{user `x86_64_iso_url`}}",
+      "iso_checksum": "{{user `x86_64_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-6.8-x86_64.vagrant.tmp",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "http_directory": "{{user `http_directory`}}",
+      "boot_command": [
+          "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-6.8-x86_64.vagrant.ks.cfg<enter>"
+      ],
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "vboxmanage": [
+          ["modifyvm", "{{.Name}}", "--memory", "512"],
+          ["modifyvm", "{{.Name}}", "--cpus", "1"],
+          ["modifyvm", "{{.Name}}", "--usb", "off"],
+          ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ]
+    },
+
+    {
+      "name": "cloudlinux-6.8-i386.vagrant",
+      "type": "virtualbox-iso",
+      "guest_os_type": "RedHat",
+      "hard_drive_interface": "sata",
+      "disk_size": 40000,
+      "headless": "{{user `headless`}}",
+      "iso_url": "{{user `i386_iso_url`}}",
+      "iso_checksum": "{{user `i386_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-6.8-i386.vagrant.tmp",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "http_directory": "{{user `http_directory`}}",
+      "boot_command": [
+          "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-6.8-i386.vagrant.ks.cfg<enter>"
+      ],
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "vboxmanage": [
+          ["modifyvm", "{{.Name}}", "--memory", "512"],
+          ["modifyvm", "{{.Name}}", "--cpus", "1"],
+          ["modifyvm", "{{.Name}}", "--usb", "off"],
+          ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ]
+    },
+
+    {
+      "name": "cloudlinux-6.8-x86_64.opennebula",
+      "type": "qemu",
+      "iso_url": "{{user `x86_64_iso_url`}}",
+      "iso_checksum": "{{user `x86_64_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-6.8-x86_64.opennebula",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "disk_size": 1200,
+      "format": "raw",
+      "headless": "{{user `headless`}}",
+      "accelerator": "kvm",
+      "http_directory": "{{user `http_directory`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "vm_name": "cloudlinux-6.8-x86_64.opennebula.{{isotime \"20060102\"}}.raw",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "qemuargs": [["-m", "1024"]],
+      "boot_command": [
+        "<tab>",
+        " append edd=off ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-6.8-x86_64.opennebula.ks.cfg<enter>",
+        "<enter>"
+      ]
+    },
+
+    {
+      "name": "cloudlinux-6.8-i386.opennebula",
+      "type": "qemu",
+      "iso_url": "{{user `i386_iso_url`}}",
+      "iso_checksum": "{{user `i386_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-6.8-i386.opennebula",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "disk_size": 1200,
+      "format": "raw",
+      "headless": "{{user `headless`}}",
+      "accelerator": "kvm",
+      "http_directory": "{{user `http_directory`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "vm_name": "cloudlinux-6.8-i386.opennebula.{{isotime \"20060102\"}}.raw",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "qemuargs": [["-m", "1024"]],
+      "boot_command": [
+        "<tab>",
+        " append edd=off ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-6.8-i386.opennebula.ks.cfg<enter>",
+        "<enter>"
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "provisioners/activate_cloudlinux.sh",
+      "environment_vars": ["CL_ACTIVATION_KEY={{user `CL_ACTIVATION_KEY`}}"]
+    },
+    {"type": "shell", "scripts": ["provisioners/upgrade.sh", "provisioners/reboot.sh"]},
+    {
+      "type": "shell",
+      "pause_before": "10s",
+      "scripts": [
+        "provisioners/install_guest_additions.sh",
+        "provisioners/install_vagrant_key.sh"
+      ],
+      "only": ["cloudlinux-6.8-x86_64.vagrant", "cloudlinux-6.8-i386.vagrant"]
+    },
+    {
+      "type": "shell",
+      "pause_before": "10s",
+      "scripts": [
+        "provisioners/install_epel.sh",
+        "provisioners/opennebula.sh"
+      ],
+      "only": ["cloudlinux-6.8-x86_64.opennebula", "cloudlinux-6.8-i386.opennebula"]
+    },
+    {"type": "shell", "script": "provisioners/cleanup_vm.sh"}
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-6.8-x86_64.vagrant/cloudlinux-6.8-x86_64.{{isotime \"20060102\"}}.box",
+      "only": ["cloudlinux-6.8-x86_64.vagrant"]
+    },
+    {
+      "type": "vagrant",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-6.8-i386.vagrant/cloudlinux-6.8-i386.{{isotime \"20060102\"}}.box",
+      "only": ["cloudlinux-6.8-i386.vagrant"]
+    },
+    {
+      "type": "compress",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-6.8-x86_64.opennebula/cloudlinux-6.8-x86_64.opennebula.{{isotime \"20060102\"}}.raw.gz",
+      "keep_input_artifact": true,
+      "only": ["cloudlinux-6.8-x86_64.opennebula"]
+    },
+    {
+      "type": "compress",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-6.8-i386.opennebula/cloudlinux-6.8-i386.opennebula.{{isotime \"20060102\"}}.raw.gz",
+      "keep_input_artifact": true,
+      "only": ["cloudlinux-6.8-i386.opennebula"]
+    }
+  ]
+}

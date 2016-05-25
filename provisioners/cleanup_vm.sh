@@ -13,7 +13,7 @@ sed -i /HWADDR/d /etc/sysconfig/network-scripts/ifcfg-eth0
 rm -f /etc/udev/rules.d/70-persistent-net.rules
 
 # delete temporary files
-rm -fr /tmp/*
+rm -fr /tmp/* /etc/sysconfig/rhn/systemid
 
 # fill all available space with zeroes for better box compression
 dd if=/dev/zero of=/zeroed_file bs=1M
