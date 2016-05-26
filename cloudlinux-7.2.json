@@ -51,7 +51,7 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "output_directory": "builds/cloudlinux-7.2-x86_64.opennebula",
       "shutdown_command": "{{user `shutdown_command`}}",
-      "disk_size": 5000,
+      "disk_size": 4500,
       "format": "qcow2",
       "headless": "{{user `headless`}}",
       "accelerator": "kvm",
