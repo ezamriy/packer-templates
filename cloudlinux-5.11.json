@@ -1,0 +1,109 @@
+{
+  "variables": {
+    "headless": "false",
+    "x86_64_iso_url": "http://repo.cloudlinux.com/cloudlinux/5.11/iso/x86_64/CloudLinux-5.11-x86_64-DVD.iso",
+    "x86_64_iso_checksum": "601c19080613d78149e3f1793cef699e43245602",
+    "i386_iso_url": "http://repo.cloudlinux.com/cloudlinux/5.11/iso/i386/CloudLinux-5.11-i386-DVD.iso",
+    "i386_iso_checksum": "7c455940a149278007442c936221e3589bd94d12",
+    "iso_checksum_type": "sha1",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "3600s",
+    "http_directory": "http",
+    "shutdown_command": "/sbin/halt -h -p"
+  },
+
+  "builders": [
+    {
+      "name": "cloudlinux-5.11-x86_64.opennebula",
+      "type": "qemu",
+      "iso_url": "{{user `x86_64_iso_url`}}",
+      "iso_checksum": "{{user `x86_64_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-5.11-x86_64.opennebula",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "disk_size": 9500,
+      "format": "qcow2",
+      "headless": "{{user `headless`}}",
+      "accelerator": "kvm",
+      "http_directory": "{{user `http_directory`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "vm_name": "cloudlinux-5.11-x86_64.opennebula.{{isotime \"20060102\"}}.qcow2",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "qemuargs": [["-m", "1024"]],
+      "boot_command": [
+        "<tab>",
+        "text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-5.11-x86_64.opennebula.ks.cfg<enter>",
+        "<enter>"
+      ]
+    },
+
+    {
+      "name": "cloudlinux-5.11-i386.opennebula",
+      "type": "qemu",
+      "iso_url": "{{user `i386_iso_url`}}",
+      "iso_checksum": "{{user `i386_iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "output_directory": "builds/cloudlinux-5.11-i386.opennebula",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "disk_size": 9500,
+      "format": "qcow2",
+      "headless": "{{user `headless`}}",
+      "accelerator": "kvm",
+      "http_directory": "{{user `http_directory`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_wait_timeout": "{{user `ssh_wait_timeout`}}",
+      "vm_name": "cloudlinux-5.11-i386.opennebula.{{isotime \"20060102\"}}.qcow2",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "qemuargs": [["-m", "1024"]],
+      "boot_command": [
+        "<tab>",
+        "text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cloudlinux-5.11-i386.opennebula.ks.cfg<enter>",
+        "<enter>"
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "provisioners/activate_cloudlinux.sh",
+      "environment_vars": ["CL_ACTIVATION_KEY={{user `CL_ACTIVATION_KEY`}}"]
+    },
+    {"type": "shell", "scripts": ["provisioners/upgrade.sh", "provisioners/reboot.sh"]},
+    {
+      "type": "shell",
+      "pause_before": "10s",
+      "scripts": [
+        "provisioners/install_epel.sh",
+        "provisioners/opennebula.sh"
+      ],
+      "only": ["cloudlinux-5.11-x86_64.opennebula", "cloudlinux-5.11-i386.opennebula"]
+    },
+    {"type": "shell", "script": "provisioners/cleanup_vm.sh"}
+  ],
+
+  "post-processors": [
+    {
+      "type": "compress",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-5.11-x86_64.opennebula/cloudlinux-5.11-x86_64.opennebula.{{isotime \"20060102\"}}.qcow2.gz",
+      "keep_input_artifact": true,
+      "only": ["cloudlinux-5.11-x86_64.opennebula"]
+    },
+    {
+      "type": "compress",
+      "compression_level": 9,
+      "output": "builds/cloudlinux-5.11-i386.opennebula/cloudlinux-5.11-i386.opennebula.{{isotime \"20060102\"}}.qcow2.gz",
+      "keep_input_artifact": true,
+      "only": ["cloudlinux-5.11-i386.opennebula"]
+    }
+  ]
+}
