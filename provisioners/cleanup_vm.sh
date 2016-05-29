@@ -10,7 +10,7 @@ yum clean all
 
 # reset network configuration
 sed -i /HWADDR/d /etc/sysconfig/network-scripts/ifcfg-eth0
-rm -f /etc/udev/rules.d/70-persistent-net.rules
+rm -f /etc/udev/rules.d/*persistent-net.rules
 
 # delete temporary files
 rm -fr /tmp/* /etc/sysconfig/rhn/systemid
