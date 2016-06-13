@@ -78,7 +78,14 @@
       "script": "provisioners/activate_cloudlinux.sh",
       "environment_vars": ["CL_ACTIVATION_KEY={{user `CL_ACTIVATION_KEY`}}"]
     },
-    {"type": "shell", "scripts": ["provisioners/upgrade.sh", "provisioners/reboot.sh"]},
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/upgrade.sh",
+        "provisioners/install_acpid.sh",
+        "provisioners/reboot.sh"
+      ]
+    },
     {
       "type": "shell",
       "pause_before": "10s",

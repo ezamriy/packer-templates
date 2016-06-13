@@ -5,6 +5,10 @@
 # description: Removes unnecessary data to produce a smaller VM.
 
 
+# remove previous kernels
+yum install -y yum-utils
+package-cleanup --oldkernels --count=1 -y
+
 # delete all yum cache files
 yum clean all
 
