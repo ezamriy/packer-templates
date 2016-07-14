@@ -7,8 +7,8 @@
 
 DISTR_VERSION=$(python -c 'import platform; print platform.dist()[1].split(".")[0]')
 
-CONTEXT_PKG='one-context_4.14.4.rpm'
-CONTEXT_PKG_URL="https://github.com/OpenNebula/addon-context-linux/releases/download/v4.14.4/${CONTEXT_PKG}"
+CONTEXT_PKG='one-context_5.0.0.rpm'
+CONTEXT_PKG_URL="https://github.com/OpenNebula/addon-context-linux/releases/download/v5.0.0/${CONTEXT_PKG}"
 
 
 if [ "${DISTR_VERSION}" -eq "5" ]; then
